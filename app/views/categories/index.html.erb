@@ -1,0 +1,31 @@
+<% content_for :title, "Categorias — LifeHub Admin" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-semibold text-slate-900">Categorias</h1>
+  <%= link_to "Nova categoria", new_category_path, class: "rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800" %>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-500">
+      <tr>
+        <th class="px-4 py-3 font-medium">Nome</th>
+        <th class="px-4 py-3 font-medium">Slug</th>
+        <th class="px-4 py-3 font-medium">Estado</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr class="border-t border-slate-100">
+          <td class="px-4 py-3 font-medium text-slate-900"><%= category["name"] %></td>
+          <td class="px-4 py-3 text-slate-500"><%= category["slug"] %></td>
+          <td class="px-4 py-3"><%= category["active"] ? "activa" : "inactiva" %></td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "Editar", edit_category_path(category["id"]), class: "text-slate-700 hover:text-slate-900 font-medium" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

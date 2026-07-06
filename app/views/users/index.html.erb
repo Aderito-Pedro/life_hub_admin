@@ -1,0 +1,53 @@
+<% content_for :title, "Utilizadores — LifeHub Admin" %>
+
+<h1 class="text-2xl font-semibold text-slate-900 mb-6">Utilizadores</h1>
+
+<%= form_with url: users_path, method: :get, class: "flex flex-wrap gap-3 mb-6" do %>
+  <input type="text" name="q" value="<%= params[:q] %>" placeholder="Pesquisar por nome ou email"
+         class="rounded-md border-slate-300 shadow-sm text-sm w-64" />
+
+  <select name="role" class="rounded-md border-slate-300 shadow-sm text-sm">
+    <option value="">Todos os perfis</option>
+    <% %w[customer operator supervisor admin partner service_provider].each do |role| %>
+      <option value="<%= role %>" <%= "selected" if params[:role] == role %>><%= role %></option>
+    <% end %>
+  </select>
+
+  <select name="status" class="rounded-md border-slate-300 shadow-sm text-sm">
+    <option value="">Todos os estados</option>
+    <% %w[active suspended blocked deleted].each do |status| %>
+      <option value="<%= status %>" <%= "selected" if params[:status] == status %>><%= status %></option>
+    <% end %>
+  </select>
+
+  <button type="submit" class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Filtrar</button>
+<% end %>
+
+<div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-500">
+      <tr>
+        <th class="px-4 py-3 font-medium">Nome</th>
+        <th class="px-4 py-3 font-medium">Email</th>
+        <th class="px-4 py-3 font-medium">Perfil</th>
+        <th class="px-4 py-3 font-medium">Estado</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr class="border-t border-slate-100">
+          <td class="px-4 py-3 font-medium text-slate-900"><%= user["full_name"] %></td>
+          <td class="px-4 py-3 text-slate-500"><%= user["email"] %></td>
+          <td class="px-4 py-3"><%= user["role"] %></td>
+          <td class="px-4 py-3"><%= user["status"] %></td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "Ver", user_path(user["id"]), class: "text-slate-700 hover:text-slate-900 font-medium" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p class="text-sm text-slate-500 mt-3"><%= @meta["count"] %> utilizador(es) encontrados.</p>
