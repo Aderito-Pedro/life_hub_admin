@@ -1,0 +1,46 @@
+<% content_for :title, "#{@user["full_name"]} — LifeHub Admin" %>
+
+<%= link_to "← Voltar a Utilizadores", users_path, class: "text-sm text-slate-500 hover:text-slate-900" %>
+
+<h1 class="text-2xl font-semibold text-slate-900 mt-2 mb-6"><%= @user["full_name"] %></h1>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-5">
+    <h2 class="text-sm font-semibold text-slate-700 mb-3">Detalhes</h2>
+    <dl class="space-y-2 text-sm">
+      <div class="flex justify-between"><dt class="text-slate-500">Email</dt><dd class="text-slate-900"><%= @user["email"] %></dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Telefone</dt><dd class="text-slate-900"><%= @user["phone"] %></dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Perfil</dt><dd class="text-slate-900"><%= @user["role"] %></dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Estado</dt><dd class="text-slate-900"><%= @user["status"] %></dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Último login</dt><dd class="text-slate-900"><%= @user["last_login_at"] %></dd></div>
+    </dl>
+  </div>
+
+  <div class="space-y-6">
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-5">
+      <h2 class="text-sm font-semibold text-slate-700 mb-3">Alterar estado</h2>
+      <%= form_with url: user_path(@user["id"]), method: :patch, class: "flex gap-2" do %>
+        <select name="status" class="rounded-md border-slate-300 shadow-sm text-sm flex-1">
+          <% %w[active suspended blocked deleted].each do |status| %>
+            <option value="<%= status %>" <%= "selected" if @user["status"] == status %>><%= status %></option>
+          <% end %>
+        </select>
+        <button type="submit" class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Guardar</button>
+      <% end %>
+    </div>
+
+    <% if current_staff_role == "admin" && @user["id"] != current_staff["id"] %>
+      <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-5">
+        <h2 class="text-sm font-semibold text-slate-700 mb-3">Alterar perfil (role)</h2>
+        <%= form_with url: user_path(@user["id"]), method: :patch, class: "flex gap-2" do %>
+          <select name="role" class="rounded-md border-slate-300 shadow-sm text-sm flex-1">
+            <% %w[customer operator supervisor admin partner service_provider].each do |role| %>
+              <option value="<%= role %>" <%= "selected" if @user["role"] == role %>><%= role %></option>
+            <% end %>
+          </select>
+          <button type="submit" class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Guardar</button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<%= form_with url: url, method: method, class: "bg-white rounded-lg shadow-sm border border-slate-200 p-6 space-y-4 max-w-lg" do |form| %>
+  <div>
+    <label class="block text-sm font-medium text-slate-700">Nome</label>
+    <input type="text" name="category[name]" value="<%= category["name"] %>" required
+           class="mt-1 block w-full rounded-md border-slate-300 shadow-sm sm:text-sm" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700">Slug (opcional)</label>
+    <input type="text" name="category[slug]" value="<%= category["slug"] %>"
+           class="mt-1 block w-full rounded-md border-slate-300 shadow-sm sm:text-sm" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700">Descrição</label>
+    <textarea name="category[description]" rows="3"
+              class="mt-1 block w-full rounded-md border-slate-300 shadow-sm sm:text-sm"><%= category["description"] %></textarea>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <input type="hidden" name="category[active]" value="0" />
+    <input type="checkbox" name="category[active]" value="1" id="category_active" <%= "checked" if category["active"] != false %>
+           class="rounded border-slate-300" />
+    <label for="category_active" class="text-sm text-slate-700">Activa</label>
+  </div>
+
+  <%= form.submit "Guardar", class: "rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 cursor-pointer" %>
+<% end %>
