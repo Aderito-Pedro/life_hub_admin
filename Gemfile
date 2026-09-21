@@ -17,7 +17,7 @@ gem "tailwindcss-rails"
 
 # Este projecto não tem base de dados própria: é só um cliente HTTP da API
 # central (ad_life_hub), autenticado como qualquer outro consumidor (JWT).
-gem "faraday", "~> 2.9"
+gem "faraday", "~> 2.14"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
